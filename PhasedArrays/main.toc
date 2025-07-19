@@ -1,0 +1,3 @@
+\babel@toc {american}{}\relax 
+\contentsline {section}{\numberline {1}Phased Arrays for High-Sensitivity Receiver Applications}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Contemporary Design Methods for Phased Arrays}{3}{subsection.1.1}%

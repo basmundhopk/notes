@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+
+%! TeX root = main.tex
+
+% basic packages
+\usepackage[margin=1in]{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{custom}
+\usepackage{lipsum}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+\pagestyle{fancy}
+
+% Inkscape Figures
+\usepackage{import}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{xcolor}
+
+%\usepackage[normalem]{ulem}
+
+\newcommand{\incfig}[2][1]{%
+    \def\svgwidth{#1\columnwidth}
+    \import{./figures/}{#2.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+\renewcommand{\sectionmark}[1]{\markright{\textsf{\arabic{section}. #1}}}
+\renewcommand{\subsectionmark}[1]{}
+\lhead{\textbf{\thepage} \ \ \nouppercase{\rightmark}}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+\setlength{\headheight}{14pt}
+
+\linespread{1.03} % give a little extra room
+\setlength{\parindent}{0.2in} % reduce paragraph indent a bit
+\setcounter{secnumdepth}{2} % no numbered subsubsections
+\setcounter{tocdepth}{2} % no subsubsections in ToC
+
+
+
+\begin{document}
+
+% make title page
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{center}
+{\fontsize{22}{22} \selectfont Book Notes on}
+\vskip 8pt
+\begin{spacing}{2.5}
+	{\fontsize{36}{36} \selectfont \bfseries \sffamily Phased Arrays for Radio Astronomy, Remote Sensing, and Satellite Communications}
+\end{spacing}
+\vskip 8pt
+{\fontsize{18}{18} \selectfont \rmfamily Brett Hopkins} 
+\vskip 6pt
+{\fontsize{14}{14} \selectfont \ttfamily bhopkins@unr.edu} 
+\vskip
+\end{center}
+
+\vspace*{\fill}
+
+% make table of contents
+\newpage
+\microtoc
+\newpage
+
+% main content
+\section{Phased Arrays for High-Sensitivity Receiver Applications}
+
+Parabolic dishes have reached the apogee of their design in recent years due to their cost being dominated by materials and labour. This is unlikely to change in the near future, and opens up possibilities of other forms of radio astronomy receivers. The currently accepted guidline is that the cost of a dish scales as $D^{2.7}$. Since the area only scales by $D^2$, building ever large steerable dishes is not a viable method for increasing sensitivity, which is directly proportional to collecting area.
+
+Phased arrays, on the other hand, are fundamentally electronic systems whose cost are decreasing rapidly. In radio astronomy, these antennas are generally known as aperature arrays (AAs) or phased array feeds (PAFs), depending on whether or not the array views the sky directly or is placed at the focal point of a dish. Beyond radio astronomy, phased arrays are applied in the application of satillite communiication and passive/active remote sensing (radar).
+
+In radio astronomy, where the receiver is targeted at the cool microwave sky which at L band has a brightness temperature of only 4-5 $\mathbf{K}$, improving the receiver noise figure and reducing antenna losses are much more significant than that of terrrestrial communications, where the ambient noise temperature is around 280 $\mathbf{K}$.
+
+The goal of this book is to introduce methods to realize phased array antennas that can compete with reflector-based receivers; a modern approach to phased array design.
+
+\subsection{Contemporary Design Methods for Phased Arrays}
+
+The traditional approach to phsaed array design is to use the element pattern and array factor approach. In practicality, this approximation is not accurate enough to use when designing for stringent performance requirements. These innacuracies are caused by unideal mutual coupling between element radiation patterns and should be taken into account from the beginning. An improved form is to perform infinite array analysis, which do incorporate mutual coupling by utilizing methods of computational electromganteic (CEM) simulation codes.
+
+In the design of modern phased array antenna systems, there are two main numerical simulation methods. 
+
+\begin{enumerate}
+
+	\item The first is the lossless, resonant, minimum scattering approximation. This method takes the known radiation pattern and combines it into an array, modeled with mutual coupling effects accounted for with a simple, easily written software code.
+	
+	\item The second is the use of full-wave, highly accurate and powerful CEM tools to model the antenna array. these simulations can be combined with the overlap integral and network theory forumulation to embed the antenna array model into a full system model. This model includes all facets of the antenna such as indirect electronic errors and non-obvious interference.
+\end{enumerate}
+
+\end{document}
