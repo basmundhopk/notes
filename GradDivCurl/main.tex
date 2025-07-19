@@ -1,0 +1,591 @@
+\documentclass[11pt]{article}
+%! TeX root = graddivcurl.tex
+% basic packages
+\usepackage[normalem]{ulem}
+\usepackage[margin=1in]{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{custom}
+\usepackage{lipsum}
+
+% page formatting
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% Inkscape Figures
+\usepackage{import}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{xcolor}
+
+\newcommand{\incfig}[2][1]{%
+    \def\svgwidth{#1\columnwidth}
+    \import{./figures/}{#2.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+\renewcommand{\sectionmark}[1]{\markright{\textsf{\arabic{section}. #1}}}
+\renewcommand{\subsectionmark}[1]{}
+\lhead{\textbf{\thepage} \ \ \nouppercase{\rightmark}}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+\setlength{\headheight}{14pt}
+
+\linespread{1.03} % give a little extra room
+\setlength{\parindent}{0.2in} % reduce paragraph indent a bit
+\setcounter{secnumdepth}{2} % no numbered subsubsections
+\setcounter{tocdepth}{2} % no subsubsections in ToC
+
+\begin{document}
+
+% make title page
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{center}
+{\fontsize{22}{22} \selectfont Book Notes on}
+\vskip 16pt
+{\fontsize{36}{36} \selectfont \bf \sffamily div grad curl and all that}
+\vskip 24pt
+{\fontsize{18}{18} \selectfont \rmfamily Brett Hopkins}
+\vskip 6pt
+{\fontsize{14}{14} \selectfont \ttfamily bhopkins@unr.edu}
+\vskip 12pt
+\end{center}
+
+\vspace*{\fill}
+
+% make table of contents
+\newpage
+\microtoc
+\newpage
+
+% main content
+\section{Chapter I: Introduction, Vector Functions, and Electrostatics}
+
+\section{Chapter II: Surface Integrals and the Divergence}
+
+\subsection{Gauss' Law}
+
+\subsection{The Unit Normal Vector}
+
+\subsection{Definition of Surface Integrals}
+
+\subsection{Evaluating Surface Integrals}
+
+\subsection{Flux}
+An integral of the type
+
+\begin{equation}
+	\iint_S F(x,y,z) \bullet \hat{n} \; dS
+\end{equation}
+
+is sometimes referred to as the "flux of F." Gauss' law states that the flux of the electromagnetic field over some closed surface is the enclosed charge divided by $\epsilon_0$.
+
+To properly understand what the Flux (Latin for "flow") represents, it is good to get a geometric feeling. Imagine we have a fluid of density $\rho$ moving with velocity $\mathbf{v}$. We want to find the total mass of the fluid that crosses an area $\Delta S$ perpendicular to the direction of flow in a time $\Delta t$. The fluid in the cylinder of length $v \Delta t$ with the patch $\Delta S$ will cross $\Delta S$ in the interval $\Delta t$.
+
+\begin{figure}[ht]
+    \centering
+    \incfig{cylinder}
+    \caption{Cylinder}
+    \label{fig:cylinder}
+\end{figure}
+
+The volume of this cylinder is $v \Delta t \Delta S$ and contains a total mass $\rho v \Delta t \Delta S$. Dividing out the $\Delta t$ will give the rate of flow. Thus, we can see that the rate of flow is
+
+\begin{equation}
+	(Rate \: of \: flow \: through \: \Delta S) = \rho v \; \Delta S
+\end{equation}
+
+Considering a more complicated case in which $\Delta S$ is not perpendicular to the direction of flow, we can apply earlier used techniques to see that the total amount of flow is equal to the previous rate of flow multiplied by $cos(\theta)$, where $\theta$ is the angle vetween the velocity vector $\mathbf{v}$ and the unit vector $\mathbf{\hat{n}}$.
+
+\begin{equation}
+	(Rate \: of \: flow \: through \: \Delta S) = \rho v \bullet \mathbf{\hat{n}} \; \Delta S
+\end{equation}
+
+Now, if we consider an arbitrary surface $S$ in some region containing flowing matter,
+
+\begin{figure}[ht]
+    \centering
+    \incfig{flowingmatter}
+    \caption{Flowing Matter}
+    \label{fig:flowingmatter}
+\end{figure}
+
+we can approximate the surface by a polyhedron, and, using previous arguments, the rate at which matter flows through the $l$th face of this polyhedron is approximately
+
+\begin{equation}
+	\rho(x_l,y_l,z_l)\mathbf{v}(x_l,y_l,z_l) \bullet \mathbf{\hat{n}}_l \; \Delta S_l
+\end{equation}
+
+Knowing that we can sum over all of the faces while taking the limit to produce an integral, we see that
+
+\begin{equation}
+	(Rate \; of \; flow \; through \; \Delta S) = \iint_S \rho(x,y,z) \mathbf{v}(x,y,z) \bullet \mathbf{\hat{n}} \; d
+\end{equation}
+
+If this surface $S$ is a closed surface and there is a net rate flow out of the volume it encloses, the integral will be positive. If there is a net rate of flow in, the integral will be negative.
+
+If in this last equation we put
+
+\begin{equation}
+	\mathbf{F}(x,y,z,) = \rho(x,y,z) \mathbf{v}(x,y,z)
+\end{equation}
+
+the integral is identical to that of the flux equation. For this reason, any integral of (1) is called "the flux of $\mathbf{F}$ over the surface $S$," even when the function is not the product of a density and a velocity.
+
+In the terms of Gauss' law, the electromagnetic field flows in or out of a surface enclosing charge, whose amount of "flow" is proportional to the net charge enclosed.
+
+\subsection{Using Gauss' Law to Find the Field}
+
+Gauss' Law is the only good general method for calculating the electric field, although, it is not an explicit expression for $\mathbf{E}$. The equation does not say "$\mathbf{E}$ equals something," but rather "the flux of $\mathbf{E}$ (the surface integral of the normal component of $\mathbf{E}$) equals something."
+
+Thus, in order to utilize Gauss' law, we must "distangle" $\mathbf{E}$ from its surroundings. Still, there are situations in which Gauss' law can be used to find the field.
+
+Consider a point charge $q$ placed at the origin of a coordinate system. From what we know about a point charge, the electric field must be in the radial direction and must have the same magnitude at all points on the surface of a sphere centered at the origin. Symbolically, we have $\mathbf{E} = \mathbf{\hat{e}}_r E(r)$ where $\mathbf{\hat{e}}_r = \mathbf{r}/r$ is a unit vector in the radial direction. Thus, Gauss' law becomes
+
+\begin{equation}
+	\iint_S E(r) \mathbf{\hat{e}}_r \bullet \mathbf{\hat{n}} \; dS = q/ \epsilon_0
+\end{equation}
+
+If, for the surface $S$, we choose a spherical shell of radius $r$ centered at the origin,
+
+\begin{figure}[ht]
+    \centering
+    \incfig{sphericalsurface}
+    \caption{Sphere}
+    \label{fig:sphericalsurface}
+\end{figure}
+
+we can see that $\mathbf{\hat{n}} = \mathbf{\hat{e}}_r$ (both pointing outwards from the origin) and that $\mathbf{\hat{n}} \bullet \mathbf{\hat{e}}_r = 1$. Plugging this into the integral, we get
+
+\begin{equation}
+	\iint_S E(r) \; dS = q/ \epsilon_0
+\end{equation}
+
+If we realize that $r$ is a constant over the spherical surface $S$, we see that $E(r)$ is also a constant of S and we get
+
+\begin{equation}
+	\iint_S E(r) \; dS = E(r) \iint_S dS = 4 \pi r^2 E(r) = q / \epsilon_0
+\end{equation}
+
+whence
+
+\begin{equation}
+	E(r) = \frac{1}{4 \pi \epsilon_0} \frac {q}{r^2}
+\end{equation}
+
+and
+
+\begin{equation}
+	\mathbf{E(r)} = \mathbf{\hat{e}}_r E(r) = \frac {\mathbf{\hat{e}}_r} {4 \pi \epsilon_0} \frac {q} {r^2}
+\end{equation}
+
+We can see how dependent this example is on the symmetry when using Gauss' law. To use Gauss' law in the form of (1) there are a total of three situations to yeild the electric field. A spherically symmetric distribution of charge, an infinitely long cylindrically symmetric distribution, and an infinite slab of charge. The real value of (1) is that it can be changed into a more useful form.
+
+This form makes it so difficult to find $\mathbf{E}$ as it requires knowing the electric field at all infinitesmally small points within a surface $S$.
+
+\begin{equation}
+	\iint_S \mathbf{E} \bullet \mathbf{\hat{n}} \; dS = q/\epsilon_0
+\end{equation}
+
+
+This could be simplified by taking the sum of lets say 100 points,
+
+\begin{equation}
+	\sum_{l=1}^{100} \mathbf{E}_l \cdot \mathbf{\hat{n}}_l \, \Delta S_l \simeq q/\epsilon_0
+\end{equation}
+
+
+but even this requires a large amount of calculations of $\mathbf{E}$ to get an accurate value.
+
+The next step is to consider dealing with the "flux at a single point" (whatever that may mean) rather than the flux through a surface. This will allow Gauss' law to yeild something usable. Let us consider at point $P$ surrounded by a set of concentric spherical shells $S_1$, $S_2$, $S_3$, and so on, and calculate the flux $\Phi_1$, $\Phi_2$, $\Phi_3$, and so on, through each shell. We can then attempt to define the "flux at point $P$" as the limiting value approached by the sequence of fluxes approaches infinitely small shells centered at point $P$.
+
+\begin{figure}[ht]
+    \centering
+    \incfig{sphericalshells}
+    \caption{$P$ and Spherical Shells $S_n$}
+    \label{fig:sphericalshells}
+\end{figure}
+
+This seemed to be a good solution, as it would employ the symmetry we used earlier and would simplify the calculation. But, it does not work because the flux approaches zero for any point $P$. This is because the flux describes the amount of matter flowing through an area. When that area approaches zero, as in point $P$, the flux approaches zero. Proving this mathematically will suggest a way to fix the issue. If $\bar{\rho}_{\Delta V}$ denotes the average density of electric charge in some region of volume $\Delta V$, then the total charge in $\Delta V$ is $\bar{\rho}_{\Delta V} \Delta V$. Thus, Gauss' law equation may be written as 
+
+\begin{equation}
+	\iint_S \mathbf{E} \bullet \mathbf{\hat{n}} \: dS = \bar{\rho}_{\Delta V} \Delta V / \epsilon_0
+\end{equation}
+
+Here, we can see the validity of our assertion: As $S \rightarrow 0$, the enclosed volume $\Delta V$ must, of course, also approach zero. Thus, the flux also tends to zero. Now, with this proof, we can now isolate a quantity that does not vanish as $S \rightarrow 0$. Dividing by $\Delta V$, we get
+
+\begin{equation}
+	\frac{1}{\Delta V} \iint_S \mathbf{E} \bullet \mathbf{\hat{n}} \: dS = \bar{\rho}_{\Delta V}/ \epsilon_0
+\end{equation}
+
+Now if we take the limit as $S$ shrinks to zero about some point in $\Delta V$ whose coordinates are $(x,y,z)$, then we see that the average density approaches $\rho(x,y,z)$, the density at $(x,y,z)$, and we get
+
+\begin{equation}
+	\lim_{\Delta V \rightarrow 0} \frac{1}{\Delta V} \iint_S \mathbf{E} \bullet \mathbf{\hat{n}} \: dS = \bar{\rho}_{\Delta V}/ \epsilon_0
+\end{equation}
+
+This expresion is hideous and can only have practical use if we can pound the left-hand side into a form that looks and acts half civilized.
+
+\subsection{Divergence}
+
+Let us consider the surface integral of some arbitrary vector function $\mathbf{F}(x,y,z)$
+
+\begin{equation}
+	\iint_S \mathbf{F} \bullet \mathbf{\hat{n}} \: dS
+\end{equation}
+
+We are interested in the ratio of this integral to the volume enclosed by the surface $S$ as the volume shrinks to zero about some point, for that is exactly the type of quantity that appears in equation (16). This limit is important enough to warrant a special name and notation. It is called the divergence of F and is designated div $\mathbf{F}$.
+
+\begin{equation}
+	\text{div} \: \mathbf{F} = \lim_{\Delta V \rightarrow 0} \frac{1}{\Delta V} \iint_S \mathbf{E} \bullet \mathbf{\hat{n}} \: dS
+\end{equation}
+
+This quantity is a scalar, and in general, will have different values at differnet points $(x,y,z)$.
+Thus, the divergence of a vector function is a scalar function of position.
+
+So, equation (17) can be written as
+
+\begin{equation}
+	\text{div} \: \mathbf{E} = \rho/\epsilon_0
+\end{equation}
+
+If we take our new terminally literally, we can interpret equation (19) to mean that the field "diverges" from a point, and how much it diverges is representative to the quantity of charge there is at that point as represented by the density there.
+
+The next thing to do is simplify the expression for the divergence of a vector function. Consider a small rectangular cuboid with edges of length $\Delta y$, $\Delta y$, $\Delta z$ parallel to the coorsinate axes. Let the point at the center of the cuboid have coordinates $(x,y,z)$. We calculate the surface integral of $\mathbf{F}$ over the surface of the cuboid by regarding the integral as a sum of six terms, one for each cuboid face.
+
+\begin{figure}[ht]
+    \centering
+    \incfig{cuboidfaces}
+    \caption{Cube Faces}
+    \label{fig:cuboidfaces}
+\end{figure}
+
+We begin by considering the face marked $S_1$ in the figure. We want
+
+\begin{equation}
+	\iint_{S_1} \mathbf{F} \bullet \mathbf{\hat{n}} \: dS
+\end{equation}
+
+In this case it is obvious that the unit vector normal to this face and pointing outward fromt he enclosed volume is $\mathbf{i}$, thus, $\mathbf{F} \bullet \mathbf{i} = F_x$. The preceding integral is
+
+\begin{equation}
+	\iint_{S_1} F_x (x,y,z) \: dS
+\end{equation}
+
+By then assuming the cuboid is small, we can calculate this integral approximately as $F_x$ at the center of the face $S_1$, multiplied by the area of the face (assuming that the cuboid face is so small that the value of the vector function is approximately equal at all points of the face). The coordinates of this center are $(x + \Delta x /2, y ,z)$. Thus,
+
+\begin{equation}
+	\iint_{S_1} F_x (x,y,z) \: dS \simeq F_x (x + \frac{\Delta x}{2}, y, z) \Delta y \Delta z
+\end{equation}
+
+This same reasoning can be applied to the opposite face $S_x$ whose outward normal vector is $-\mathbf{i}$ and whose center is at $(x - \Delta x / 2, y, z)$. Solving this integral leads to
+
+\begin{equation}
+	- F_x (x - \frac{\Delta x}{2}, y, z) \Delta y \Delta z
+\end{equation}
+
+Adding together the contributions of these two faces, we get:
+\begin{align}
+	&\iint_{S_1 + S_2} \mathbf F \cdot \mathbf{\hat{n}} \, dS \notag\\
+	&\simeq \bigl [F_x \bigl(x + \frac{\Delta x}{2},y,z \bigr) - F_x \bigl(x - \tfrac{\Delta x}{2},y,z \bigr) \bigr] \, \Delta y\,\Delta z \\
+	&= \frac{F_x\bigl(x + \tfrac{\Delta x}{2},y,z\bigr) - F_x\bigl(x - \tfrac{\Delta x}{2},y,z \bigr)}{\Delta x} \Delta y\,\Delta z\,\Delta x \notag
+\end{align}
+
+Recognizing that $\Delta x \Delta y \Delta z = \Delta V$ is the volume of the cuboid, we can simplify the integral to
+
+\begin{align}
+	&\frac{1}{\Delta V} \iint_{S_1 + S_2} \mathbf F \cdot \mathbf{\hat{n}} \, dS \notag\\
+	&= \frac{F_x\bigl(x + \tfrac{\Delta x}{2},y,z\bigr) - F_x\bigl(x - \tfrac{\Delta x}{2},y,z \bigr)}{\Delta x}
+\end{align}
+
+Recognizing that as the limit as $\Delta V$ approaches zero the sides of the cuboid apporach zero allow us to write $\lim_{\Delta x \rightarrow 0}$ on the right hand side in place of $\lim_{\Delta V \rightarrow 0}$ and we find
+
+\begin{align}
+	&\lim_{\Delta V \rightarrow 0} \frac{1}{\Delta V} \iint_{S_1 + S_2} \mathbf F \cdot \mathbf{\hat{n}} \, dS \notag\\
+	& = \lim_{\Delta x \rightarrow 0} \frac{F_x\bigl(x + \tfrac{\Delta x}{2},y,z\bigr) - F_x\bigl(x - \tfrac{\Delta x}{2},y,z \bigr)}{\Delta x}	\\
+	&= \frac{\partial F_x}{\partial x}
+\end{align}
+
+evaluated at $(x,y,z)$. This last equation is the definnition of the partial derivative. Now, when considering the contributions of the other faces of the cube,
+
+\begin{equation}
+	\lim_{\Delta V \rightarrow 0} \frac{1} {\Delta V} \iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_z}{\partial z}
+\end{equation}
+
+The limit on the left hand side of this equation is the divergence of $\mathbf{F}$. Thus, we have just demonstrated that
+
+\begin{equation}
+	\text{div} \, \mathbf{F} = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_z}{\partial z}
+\end{equation}
+
+This equation provides a much more straitforward method to determining the divergence. If we consider the function
+
+\begin{equation}
+\mathbf{F} = \mathbf{i}x^2 + \mathbf{j}xy + \mathbf{k}yz
+\end{equation}
+
+We then calculate
+
+\begin{equation}
+	\frac{\partial F_x}{\partial x} = 2x, \; \frac{\partial F_y}{\partial y} = x, \; \text{and} \; \frac{\partial F_z}{\partial z} = y
+\end{equation}
+
+Thus, the divergence of $\mathbf{F}$ is
+
+\begin{equation}
+	\text{div} \, \mathbf{F} = 2x + x + y = 3x + y
+\end{equation}
+
+Returning to the electrostatic field, we combine the equations to find
+ 
+\begin{equation}
+	\frac{\partial E_x}{\partial x} + \frac{ \partial E_y}{\partial y} + \frac{\partial E_z}{\partial z} = \rho / \epsilon_0
+\end{equation}
+
+This equation, while acceptable, we prefer to define the divergence as a limit of flux to volume as stated in equation (28). Equation (33) is merely the form it takes in the Cartesian coordiante system. In other coordinate systems, such as in the cylindircal system, the function $\mathbf{F}$ has three components,  $F_r$, $F_\theta$, and $F_z$.
+
+\begin{figure}[ht]
+    \centering
+    \incfig{polarcoordinatesystem}
+    \caption{Polar Coordiante System}
+    \label{fig:polarcoordinatesystem}
+\end{figure}
+
+With cylindrical coordinates, we can create something akin to a "cylindrical cuboid" with volume $\Delta V = r \cdot \Delta r \Delta \theta \Delta z.$ and centered at the point  $(r, \theta, z)$.
+
+The flux of $\mathbf{F}$ through the face marked 1 is
+
+\begin{align}
+	 \iint_{S_2} \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \iint_{S_2}F_r \, dS \notag\\
+	 \simeq F_r \bigl(r+ \frac{\Delta r}{2}, \theta, z \bigr)\bigl(r+\frac{\Delta r}{2}\bigr) \Delta \theta \Delta z
+\end{align}
+
+ Now, by adding solving the flux of $\mathbf{F}$ of the opposite face
+
+\begin{align}
+	\iint_{S_2} \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = -\iint_{S_2}F_r \, dS \notag\\
+	 \simeq -F_r \bigl(r - \frac{\Delta r}{2}, \theta, z \bigr)\bigl(r - \frac{\Delta r}{2}\bigr) \Delta \theta \Delta z
+\end{align}
+
+\begin{figure}[ht]
+	\centering
+	\incfig{cylindricalcuboid}
+	\caption{Cylindrical Cuboid}
+	\label{fig:cylindricalcuboid}
+\end{figure}
+
+Adding these two results and dividing by the volume $\Delta V$ of the cuboid, we find
+
+\begin{align}
+	\frac{1}{\Delta V} \iint_{S_1+S_2} \mathbf{F} \cdot \mathbf{\hat{n}} \, dS \notag\\
+	\simeq \frac{1}{r\Delta r} [(r+\frac{\Delta r}{2})F_r(r+\frac{\Delta r}{2}, \theta, z) \\
+	-(r-\frac{\Delta r}{2})F_r(r-\frac{\Delta r}{2}, \theta,z)]
+\end{align}
+
+which in the limit as $\Delta r$ (and also $\Delta V$) approaches zero becomes
+
+\[
+\frac{1}{r}\frac{\partial}{\partial r}(rF_r)
+.\]
+
+Doing the same for the other 4 faces, we arrive at the complete expressions of
+\[
+	\text{div } \mathbf{F} = \frac{1}{r}(rF_r) + \frac{1}{r}\frac{\partial F_\theta}{\partial \theta} + \frac{\partial F_z}{\partial z}
+.\]
+
+In sphericl coordinates where the components of $\mathbf{F}$ are $F_r$, $F_\theta$, $F_\phi$, following the same method as for the cartesian and cylindrical coordinate systems, we find that
+
+\[
+	\text{div } \mathbf{F} = \frac{1}{r^2} \frac{\partial}{\partial r}(r^2F_r) + \frac{1}{r \sin \phi} \frac{\partial}{\partial \phi} (\sin \phi F_\phi) + \frac{1}{r \sin \phi}\frac{\partial F_\theta}{\partial \theta}
+.\]
+
+\subsection{The Del Notation}
+
+The divergence may be written in a special notation known as The Del Notation. Instead of writing "div," we shall define a quantity designated $\div$ (read "del") by the following equation
+
+\[
+	\nabla = \mathbf{i} \frac{\partial}{\partial x} + \mathbf{j} \frac{\partial}{\partial y} + \mathbf{k} \frac{\partial}{\partial z}
+.\]
+
+If we take the dot product of $\nabla $ and some vector function $\mathbf{F} = \mathbf{i} F_x + \mathbf{j} F_y + \mathbf{k} F_z$, we get
+
+\[
+	\nabla \cdot \mathbf{F} = (\mathbf{i} \frac{\partial}{\partial x} + \mathbf{j}\frac{\partial}{\partial y} + \mathbf{k} \frac{\partial}{\partial z}) \cdot (\mathbf{i}F_x + \mathbf{j}F_x + \mathbf{k}F_z) = \frac{\partial}{\partial x}F_x + \frac{\partial}{\partial y} F_y + \frac{\partial}{\partial z} F_z
+.\]
+
+The product of $\frac{\partial}{\partial x}$ and $\mathbf{F}_x$ as a partial dervative; that is,
+\[
+\frac{\partial}{\partial x}F_x \equiv \frac{\partial F_x}{\partial x}
+.\]
+
+Obviously, this is equivalent for the other two products.
+
+So, with this convention, we see that $\nabla \cdot \mathbf{F}$ ("del dot $\mathbf{F}")$ is the same as div  $\mathbf{F}$, and henceforth, we will always use $\nabla \cdot \mathbf{F}$ to indicate the divergence. Thus, the equation for Gauss' Law, shall now be written as
+
+\[
+	\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0}
+.\]
+
+Mathematicians call a symbol like $\nabla $ an operator. When we operate with $\nabla $, we get the divergence of that function.
+
+\subsection{The Divergence Theorem}
+
+Now, we will discuss the divergence theorem, sometimes known as Gauss' theorem (not Gauss' law), a remarkable connection between surface integrals and volume integrals. We shall not give a mathematically rigorous proof of the theorem, and will instead present another physicist's rough-and-ready proof.
+
+Consider a closed surface $S$. Subdivide the volume $V$ enclosed by $S$ arbitrarily into $N$ subvolumes. We begin our proof by assterting that the flux of an arbitrary vector function $\mathbf{F} (x,y,z)$ through the surface $S$ equals the sum of the fluxes through the surfaces of each of the subvolumes:
+\[
+	\iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \sum_{l=1}^{N} \iint_{S_l} \mathbf{F} \cdot \mathbf{\hat{n}} \, dS \tag{II-26}
+.\]
+In this case, $S_l$ is the surface that encloses the subvolume $\Delta V_l$. To esablish the previous equation, consider two adjacent subvolumes. Let their common face be denoted $S_0$. The flux through the subvolume marked 1 is
+
+\[
+	\iint_{S_0} \mathbf{F} \cdot \mathbf{\hat{n_l}} \, dS
+.\]
+
+Here $\mathbf{\hat{n}}_l$ is a unit vector normal to teh face $S_0$, and by our usual convention, it points outward from subvolume 1. The flux through the subvolume marked 2 also includes a contribution from $S_0$.
+\[
+	\iint_{S_0} \mathbf{F} \cdot \mathbf{\hat{n}}_2 \, dS
+.\]
+\begin{figure}[ht]
+    \centering
+    \incfig{subvolumes}
+    \caption{Subvolumes}
+    \label{fig:Subvolumes}
+\end{figure}
+
+Because the vector $\mathbf{\hat{n}}_2$ is simply an equal but opposite version of vector $\mathbf{\hat{n}}_1$, we can form a sum between the two where
+\[
+	\iint_{S_0} \mathbf{F} \cdot \mathbf{\hat{n}}_1 \, dS - \iint_{S_0} \mathbf{F} \cdot \mathbf{\hat{n_1}} \, dS = 0
+\]
+We see that these terms cancel each other out and there is no net contribution to the sum due to the face $S_0$. In fact, this sort of cancellation will obviously occur for any subvolume surface that is common to two adjacent subvolumes. But, all subvolume surfaces are common to two adjacent subvolumes (and cancel out) except those that are part of the original outer surface $S$. Hence, the other terms that survive into the final equation comes from those subvolume surfaces that, taken together, constitute the surface $S$.
+
+We can now rewrite equation (II-26) in the following fashon:
+\[
+	\iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \sum_{l=1}^N \biggl[\frac{1}{\Delta V_l} \iint \mathbf{F} \cdot \mathbf{\hat{n}} \, dS\biggr] \Delta V_l \tag{II-27}
+.\]
+Taking the limit of the sum in this equation (as the number of subdivisions tends to infinity and each $\Delta V_l$ tends to zero), we recognize that this value is, by definition, $\nabla \cdot \mathbf{F}_l$, that is, the divergence of $\mathbf{F}$ evaluated at the point about which $\Delta V_l$ is shrinking. Thus, for each very small $\Delta V_l$, equation (II-27) becomes
+\[
+	\iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS \simeq \sum_{l=1}^N (\nabla \cdot \mathbf{F})_l \Delta V_l
+.\]
+Taking the limit, this sum becomes the triple integral of the inner term over the volume enclosed by $S$.
+
+\[
+	\lim_{N \rightarrow \infty} \sum_{l=1}^N (\nabla \cdot \mathbf{F})_l \Delta V_l = \iiint_V \nabla  \cdot \mathbf{F} \, dV \tag{II-29}
+.\]
+
+Now, putting together (II-26) and (II-27), we arrive at our result:
+
+\[
+	\iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \iiint_V \nabla \cdot \mathbf{F} \, dV \tag{II-30}
+.\]
+
+This is the divergence theorem. It words, it describes that the flux of a vector function through some closed surface
+equals the triple integral of the divergence of that function over the volume enclosed by the surface. \\
+\textbf{Example.} Let
+\[
+	\mathbf{F} (x,y,z) = \mathbf{i}x + \mathbf{j}y + \mathbf{k} z
+.\]
+and choose for $S$ the surface shown in the following figure, consisting of the hemispherical shell of radius 1 and the region $R$ of the xy-plane enclosed by the unit circle.
+
+\begin{figure}[ht]
+    \centering
+    \incfig{hemisphericalshell}
+    \caption{Hemispherical Shell}
+    \label{fig:hemisphericalshell}
+\end{figure}
+
+On the hemisphere we have $\mathbf{\hat{n}} = \mathbf{i}x + \mathbf{j}y + \mathbf{k}z,$ so that $\mathbf{\hat{n}} \cdot \mathbf{F} = x^2 + y^2 + z^2 = 1$. Thus, on the hemisphere,
+\[
+	\iint \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = \iint \, dS = 2\pi
+,\]
+where the last equality follows from the fact that the integral is merely the surface are of the unit hemisphere (the projected circle on the xy plane). On the region touching the xy plane, we have $\mathbf{\hat{n}} = -\mathbf{k}$ so that $\mathbf{\hat{n}} \cdot \mathbf{F} = - z$. Hence, on R,
+\[
+	\iint \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = - \iint z \, dxdy = 0
+.\]
+because $z = 0$ everywhere on $R$. Thus, there is no contribution to the surface integral from the circular region $R$ and
+\[
+	\iint_S \mathbf{F} \cdot \mathbf{\hat{n}} \, dS = 2\pi
+.\]
+
+Next, we find by a trivial calculation that $\nabla \cdot \mathbf{F} = 3$. It follows then that
+\[
+	\iiint_V \nabla \cdot \mathbf{F} \, dV = 3 \iiint_V dV = 3\frac{2\pi}{3} = 2\pi
+.\]
+where $\frac{2\pi}{3}$ is the volume of the unit hemisphere. Because these two values are equal, it proves the equation of (II-30).
+
+\subsection{Two Simple Applications of the Divergence Theroem}
+
+\textbf{Example 1.} We start wih Gauss' law in the form
+\[
+	\iint_S \mathbf{E} \cdot \mathbf{\hat{n}} \, dS = \frac{1}{\epsilon_0} \iiint_V \rho \, dV \tag{II-31}
+.\]
+Applying the divergence theorem to the left sie of the equation,
+\[
+	\iint_S \mathbf{E} \cdot \mathbf{\hat{n}} \, dS = \iiint_V \nabla \cdot \mathbf{E} \, dV \tag{II-32}
+.\]
+Thus, applying the two equations (II-31) and (II-32), we find
+\[
+	\iiint_V \nabla \cdot \mathbf{E} \, dV = \frac{1}{\epsilon_0} \iiint_V \rho \, dV
+.\]
+\begin{itemize}
+	\item In general, if two volume integrals are equal, it is not necessarily true that their integrands are equal. It might mean that the integrals are equal only over the particular volume of integration $V$, and by integrating over a different volume, we would wreck the equality.
+	\item In this case however, Gauss' Law holds true for any arbitrary volume $V$.
+\end{itemize}
+
+Hence,
+\[
+	\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0}
+,\]
+one of the forms of Gauss' law.
+
+\textbf{Example 2.}	Suppose some region of space "stuff" (i.e. electric charge) is moving. let the denisty of this stuff at any point $(x,y,z)$ and at any time $t$ be $\rho(x,y,z)$ and let its velocity be $\mathbf{v}(x,y,z)$. Further, suppose this stuff is neither created nor destroyed (conserved). Wtih some arbitrary volume $V$ in space, we ask: What is the rate at which the amount of stuff in this volume is changing?
+
+\begin{figure}[ht]
+    \centering
+    \incfig{movingstuff}
+    \caption{Moving Stuff}
+    \label{fig:movingstuff}
+\end{figure}
+
+At any time t the amount of stuff in $V$ is
+\[
+\iiint_V \rho(x,y,z) \, dV
+.\]
+and the rate at which it is changing is
+\[
+\frac{d}{dt}\iiint_V \rho(x,y,z) \, dV = \iiint_V \frac{\partial \rho}{\partial t} \, dV
+.\]
+Remembering that the rate at which stuff flows through a sturface $S$ is
+\[
+	\iint_S \rho \mathbf{v} \cdot \mathbf{\hat{n}}
+.\]
+We then assert that the rate at which the amount of stuff in $V$ is changing is equal to the rate at which it is flowing through the enclosing surface $S$.
+\[
+	\iiint_V \frac{\partial \rho}{\partial t} \, dV = -\iint_S \rho \mathbf{v} \cdot \mathbf{\hat{n}} \, dS
+.\]
+\begin{enumerate}
+	\item The negative sign must be included because the surface integral is defined as positive for a new flow out of the volume, but a net flow out means the amount of stuff in the volume is decreasing.
+	\item This equation is only applicable if the amount of stuff in $V$ changes only as a result of stuff flowing across the boundary $S$. If stuff is being created or destroyed in $V$, this term would have to be included in the equation to represent that fact.
+\end{enumerate}
+Using the divergence theorem,
+\[
+	\iint_S \rho \mathbf{v} \cdot \mathbf{\hat{n}} \, dS = \iiint_V \nabla \cdot (\rho \mathbf{v}) \, dV
+.\]
+Arguing the same as in exmaple 1 that $V$ is an arbitrary volume, we can then say
+\[
+	\frac{\partial \rho}{\partial t} = -\nabla \cdot (\rho \mathbf{v}) \tag{II-33}
+.\]
+Usually we define the \textit{current density} $\mathbf{J} = \rho \mathbf{v}$ and write equation (II-31) as
+ \[
+	\frac{\partial \rho}{\partial t} + \nabla  \cdot \mathbf{J} = 0
+.\]
+This equation is referred to as a \textit{continuity equation} and is an xpression of a conservation law.
+
+
+\end{document}
